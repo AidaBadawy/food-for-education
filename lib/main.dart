@@ -53,6 +53,9 @@ class MainApp extends StatelessWidget {
           title: env!.appName,
           onGenerateRoute: StackedRouter().onGenerateRoute,
           navigatorKey: StackedService.navigatorKey,
+          theme: regularTheme,
+          darkTheme: darkTheme,
+          themeMode: themeMode,
           navigatorObservers: [
             StackedService.routeObserver,
           ],
