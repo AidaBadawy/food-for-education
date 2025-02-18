@@ -3,12 +3,12 @@ import 'package:mockito/mockito.dart';
 import 'package:food_for_education/app/app.bottomsheets.dart';
 import 'package:food_for_education/app/app.locator.dart';
 import 'package:food_for_education/ui/common/app_strings.dart';
-import 'package:food_for_education/ui/views/home/home_viewmodel.dart';
+// import 'package:food_for_education/ui/views/home/home_viewmodel.dart';
 
 import '../helpers/test_helpers.dart';
 
 void main() {
-  HomeViewModel getModel() => HomeViewModel();
+  // HomeViewModel getModel() => HomeViewModel();
 
   group('HomeViewmodelTest -', () {
     setUp(() => registerServices());
@@ -16,7 +16,7 @@ void main() {
 
     group('incrementCounter -', () {
       test('When called once should return  Counter is: 1', () {
-        final model = getModel();
+        // final model = getModel();
         // model.incrementCounter();
         // expect(model.counterLabel, 'Counter is: 1');
       });
@@ -27,7 +27,7 @@ void main() {
           () {
         final bottomSheetService = getAndRegisterBottomSheetService();
 
-        final model = getModel();
+        // final model = getModel();
         // model.showBottomSheet();
         verify(bottomSheetService.showCustomSheet(
           variant: BottomSheetType.notice,

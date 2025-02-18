@@ -727,7 +727,6 @@ class MockMainService extends _i1.Mock implements _i9.MainService {
         returnValueForMissingStub: 0,
       ) as int);
 
-  @override
   _i7.Future<_i2.DefResponse> fetchPosts({
     required int? page,
     required int? limit,
