@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:stacked/stacked.dart';
-import 'package:food_for_education/ui/common/app_colors.dart';
+import 'package:food_for_education/models/post_model.dart';
+import 'package:food_for_education/ui/common/box_text.dart';
+import 'package:food_for_education/ui/common/enums.dart';
 import 'package:food_for_education/ui/common/ui_helpers.dart';
+import 'package:food_for_education/ui/widgets/post_card.dart';
+import 'package:sizer/sizer.dart';
+import 'package:skeletonizer/skeletonizer.dart';
+import 'package:stacked/stacked.dart';
+import 'package:stacked_themes/stacked_themes.dart';
 
 import 'home_viewmodel.dart';
 
@@ -14,64 +20,62 @@ class HomeView extends StackedView<HomeViewModel> {
     HomeViewModel viewModel,
     Widget? child,
   ) {
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
+    bool isDark = getThemeManager(context).isDarkMode;
+
     return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 25.0),
-          child: Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                verticalSpaceLarge,
-                Column(
-                  children: [
-                    const Text(
-                      'Hello, STACKED!',
-                      style: TextStyle(
-                        fontSize: 35,
-                        fontWeight: FontWeight.w900,
-                      ),
-                    ),
-                    verticalSpaceMedium,
-                    MaterialButton(
-                      color: Colors.black,
-                      onPressed: viewModel.incrementCounter,
-                      child: Text(
-                        viewModel.counterLabel,
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    MaterialButton(
-                      color: kcDarkGreyColor,
-                      onPressed: viewModel.showDialog,
-                      child: const Text(
-                        'Show Dialog',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    MaterialButton(
-                      color: kcDarkGreyColor,
-                      onPressed: viewModel.showBottomSheet,
-                      child: const Text(
-                        'Show Bottom Sheet',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
+      appBar: AppBar(
+        elevation: 1,
+        title: PoppinsText.regular(
+          'Posts (${viewModel.postList.length})',
+          16,
+          colorScheme.onSurface,
+        ),
+        actions: [
+          IconButton(
+            onPressed: () => viewModel.toggleDarkLightMode(context),
+            icon: Icon(
+                isDark ? Icons.dark_mode_outlined : Icons.light_mode_outlined,
+                size: 28,
+                color: colorScheme.primary),
           ),
+        ],
+      ),
+      body: RefreshIndicator.adaptive(
+        onRefresh: () async {
+          await viewModel.onInitHomeView();
+        },
+        child: ListView.separated(
+          padding: EdgeInsets.symmetric(horizontal: 5.1.w, vertical: 1.5.h),
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            if (index == viewModel.postList.length &&
+                viewModel.postList.length != viewModel.postListService.length) {
+              return Center(
+                child: ElevatedButton(
+                  onPressed: () {
+                    viewModel.fetchMorePosts(); // Call your load more function
+                  },
+                  child:
+                      PoppinsText.medium('Load More', 14, colorScheme.primary),
+                ),
+              );
+            }
+            return Skeletonizer(
+              enabled: viewModel.status == StatusEnum.busy,
+              child: PostCard(
+                postModel: viewModel.postList[index],
+                onTap: (PostModel post) {
+                  viewModel.navigateToPostDetail(post);
+                },
+              ),
+            );
+          },
+          separatorBuilder: (context, index) => verticalSpaceSmall,
+          itemCount:
+              viewModel.postList.length != viewModel.postListService.length
+                  ? viewModel.postList.length + 1
+                  : viewModel.postList.length,
         ),
       ),
     );
@@ -82,4 +86,10 @@ class HomeView extends StackedView<HomeViewModel> {
     BuildContext context,
   ) =>
       HomeViewModel();
+
+  @override
+  void onViewModelReady(HomeViewModel viewModel) {
+    viewModel.onInitHomeView();
+    super.onViewModelReady(viewModel);
+  }
 }

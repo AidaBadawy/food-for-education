@@ -1,31 +1,29 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
-const double _tinySize = 5.0;
-const double _smallSize = 10.0;
-const double _mediumSize = 25.0;
-const double _largeSize = 50.0;
-const double _massiveSize = 120.0;
+double tinySizerHeight = 0.8.h;
+double tinySizerWidth = 1.3.w;
+double smallSizerHeight = 1.47.h;
+double smallSizerWidth = 2.6.w;
+double mediumSizerHeight = 3.7.h;
+double mediumSizerWidth = 6.w;
+double largeSizerHeight = 7.4.h;
+double largeSizerWidth = 12.w;
+double massiveSizer = 17.6.h;
 
-const Widget horizontalSpaceTiny = SizedBox(width: _tinySize);
-const Widget horizontalSpaceSmall = SizedBox(width: _smallSize);
-const Widget horizontalSpaceMedium = SizedBox(width: _mediumSize);
-const Widget horizontalSpaceLarge = SizedBox(width: _largeSize);
+Widget horizontalSpaceTiny = SizedBox(width: tinySizerWidth);
+Widget horizontalSpaceSmall = SizedBox(width: smallSizerWidth);
+Widget horizontalSpaceMedium = SizedBox(width: mediumSizerWidth);
+Widget horizontalSpaceLarge = SizedBox(width: largeSizerWidth);
 
-const Widget verticalSpaceTiny = SizedBox(height: _tinySize);
-const Widget verticalSpaceSmall = SizedBox(height: _smallSize);
-const Widget verticalSpaceMedium = SizedBox(height: _mediumSize);
-const Widget verticalSpaceLarge = SizedBox(height: _largeSize);
-const Widget verticalSpaceMassive = SizedBox(height: _massiveSize);
-
-Widget spacedDivider = const Column(
-  children: <Widget>[
-    verticalSpaceMedium,
-    Divider(color: Colors.blueGrey, height: 5.0),
-    verticalSpaceMedium,
-  ],
-);
+//SizerVertical
+Widget verticalSpaceTiny = SizedBox(height: tinySizerHeight);
+Widget verticalSpaceSmall = SizedBox(height: smallSizerHeight);
+Widget verticalSpaceMedium = SizedBox(height: mediumSizerHeight);
+Widget verticalSpaceLarge = SizedBox(height: largeSizerHeight);
+Widget verticalSpaceMassive = SizedBox(height: massiveSizer);
 
 Widget verticalSpace(double height) => SizedBox(height: height);
 

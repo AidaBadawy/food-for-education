@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:food_for_education/ui/common/box_text.dart';
+import 'package:sizer/sizer.dart';
 import 'package:stacked/stacked.dart';
 import 'package:food_for_education/ui/common/ui_helpers.dart';
 
@@ -14,25 +16,33 @@ class StartupView extends StackedView<StartupViewModel> {
     StartupViewModel viewModel,
     Widget? child,
   ) {
-    return const Scaffold(
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
+
+    return Scaffold(
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              'STACKED',
-              style: TextStyle(fontSize: 40, fontWeight: FontWeight.w900),
+            PoppinsText.semiBold(
+              'Food For Education',
+              26,
+              colorScheme.primary,
             ),
+            verticalSpaceMedium,
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text('Loading ...', style: TextStyle(fontSize: 16)),
+                PoppinsText.regular(
+                  'Loading...',
+                  16,
+                  colorScheme.onSurface,
+                ),
                 horizontalSpaceSmall,
                 SizedBox(
-                  width: 16,
-                  height: 16,
+                  width: 2.5.h,
+                  height: 2.5.h,
                   child: CircularProgressIndicator(
-                    color: Colors.black,
+                    color: colorScheme.onSurface,
                     strokeWidth: 6,
                   ),
                 )
