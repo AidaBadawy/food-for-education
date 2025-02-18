@@ -7,11 +7,12 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:flutter/material.dart' as _i5;
 import 'package:flutter/material.dart';
+import 'package:food_for_education/models/post_model.dart' as _i6;
 import 'package:food_for_education/ui/views/home/home_view.dart' as _i2;
 import 'package:food_for_education/ui/views/post/post_view.dart' as _i4;
 import 'package:food_for_education/ui/views/startup/startup_view.dart' as _i3;
 import 'package:stacked/stacked.dart' as _i1;
-import 'package:stacked_services/stacked_services.dart' as _i6;
+import 'package:stacked_services/stacked_services.dart' as _i7;
 
 class Routes {
   static const homeView = '/home-view';
@@ -57,8 +58,10 @@ class StackedRouter extends _i1.RouterBase {
       );
     },
     _i4.PostView: (data) {
+      final args = data.getArgs<PostViewArguments>(nullOk: false);
       return _i5.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i4.PostView(),
+        builder: (context) =>
+            _i4.PostView(key: args.key, postModel: args.postModel),
         settings: data,
       );
     },
@@ -71,7 +74,34 @@ class StackedRouter extends _i1.RouterBase {
   Map<Type, _i1.StackedRouteFactory> get pagesMap => _pagesMap;
 }
 
-extension NavigatorStateExtension on _i6.NavigationService {
+class PostViewArguments {
+  const PostViewArguments({
+    this.key,
+    required this.postModel,
+  });
+
+  final _i5.Key? key;
+
+  final _i6.PostModel postModel;
+
+  @override
+  String toString() {
+    return '{"key": "$key", "postModel": "$postModel"}';
+  }
+
+  @override
+  bool operator ==(covariant PostViewArguments other) {
+    if (identical(this, other)) return true;
+    return other.key == key && other.postModel == postModel;
+  }
+
+  @override
+  int get hashCode {
+    return key.hashCode ^ postModel.hashCode;
+  }
+}
+
+extension NavigatorStateExtension on _i7.NavigationService {
   Future<dynamic> navigateToHomeView([
     int? routerId,
     bool preventDuplicates = true,
@@ -100,14 +130,17 @@ extension NavigatorStateExtension on _i6.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> navigateToPostView([
+  Future<dynamic> navigateToPostView({
+    _i5.Key? key,
+    required _i6.PostModel postModel,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return navigateTo<dynamic>(Routes.postView,
+        arguments: PostViewArguments(key: key, postModel: postModel),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -142,14 +175,17 @@ extension NavigatorStateExtension on _i6.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> replaceWithPostView([
+  Future<dynamic> replaceWithPostView({
+    _i5.Key? key,
+    required _i6.PostModel postModel,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return replaceWith<dynamic>(Routes.postView,
+        arguments: PostViewArguments(key: key, postModel: postModel),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
