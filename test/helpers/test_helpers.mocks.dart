@@ -728,16 +728,28 @@ class MockMainService extends _i1.Mock implements _i9.MainService {
       ) as int);
 
   @override
-  _i7.Future<_i2.DefResponse> fetchPosts() => (super.noSuchMethod(
+  _i7.Future<_i2.DefResponse> fetchPosts({
+    required int? page,
+    required int? limit,
+  }) =>
+      (super.noSuchMethod(
         Invocation.method(
           #fetchPosts,
           [],
+          {
+            #page: page,
+            #limit: limit,
+          },
         ),
         returnValue: _i7.Future<_i2.DefResponse>.value(_FakeDefResponse_0(
           this,
           Invocation.method(
             #fetchPosts,
             [],
+            {
+              #page: page,
+              #limit: limit,
+            },
           ),
         )),
         returnValueForMissingStub:
@@ -746,9 +758,30 @@ class MockMainService extends _i1.Mock implements _i9.MainService {
           Invocation.method(
             #fetchPosts,
             [],
+            {
+              #page: page,
+              #limit: limit,
+            },
           ),
         )),
       ) as _i7.Future<_i2.DefResponse>);
+
+  @override
+  dynamic calculatePaginatedList({
+    required int? page,
+    required int? limit,
+  }) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #calculatePaginatedList,
+          [],
+          {
+            #page: page,
+            #limit: limit,
+          },
+        ),
+        returnValueForMissingStub: null,
+      );
 
   @override
   void listenToReactiveValues(List<dynamic>? reactiveValues) =>

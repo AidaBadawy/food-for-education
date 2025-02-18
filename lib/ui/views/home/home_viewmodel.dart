@@ -39,7 +39,7 @@ class HomeViewModel extends ReactiveViewModel {
     addDummyDataForLoader();
     setStatus(StatusEnum.busy);
     DefResponse defResponse =
-        await _mainService.fetchPosts(page: _page, limit: _limit);
+        await _mainService.fetchPostsApi(page: _page, limit: _limit);
 
     if (defResponse.success!) {
       _postList.clear();
