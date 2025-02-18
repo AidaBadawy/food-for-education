@@ -4,19 +4,25 @@ import 'package:food_for_education/ui/views/home/home_view.dart';
 import 'package:food_for_education/ui/views/startup/startup_view.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:food_for_education/services/main_service.dart';
+import 'package:food_for_education/services/dio_service.dart';
+import 'package:food_for_education/ui/views/post/post_view.dart';
 // @stacked-import
 
 @StackedApp(
   routes: [
     MaterialRoute(page: HomeView),
     MaterialRoute(page: StartupView),
-    // @stacked-route
+    MaterialRoute(page: PostView),
+// @stacked-route
   ],
   dependencies: [
     LazySingleton(classType: BottomSheetService),
     LazySingleton(classType: DialogService),
     LazySingleton(classType: NavigationService),
-    // @stacked-service
+    LazySingleton(classType: MainService),
+    LazySingleton(classType: DioService),
+// @stacked-service
   ],
   bottomsheets: [
     StackedBottomsheet(classType: NoticeSheet),
