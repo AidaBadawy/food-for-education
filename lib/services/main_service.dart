@@ -22,7 +22,7 @@ class MainService with ListenableServiceMixin {
 
   final _dioService = locator<DioService>();
 
-  Future<DefResponse> fetchPosts({
+  Future<DefResponse> fetchPostsApi({
     required int page,
     required int limit,
   }) async {
