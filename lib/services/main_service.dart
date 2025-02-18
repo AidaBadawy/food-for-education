@@ -22,7 +22,10 @@ class MainService with ListenableServiceMixin {
 
   final _dioService = locator<DioService>();
 
-  Future<DefResponse> fetchPosts() async {
+  Future<DefResponse> fetchPosts({
+    required int page,
+    required int limit,
+  }) async {
     try {
       var dio = await _dioService.publicDio();
       final response = await dio.get(
@@ -30,20 +33,33 @@ class MainService with ListenableServiceMixin {
       );
       final List<dynamic> responseData = response.data;
 
-      if (response.statusCode == 200) {
-        print(responseData);
+      _postList.value =
+          List.from(responseData.map<PostModel>((e) => PostModel.fromJson(e)));
 
-        _postList.value = List.from(
-            responseData.map<PostModel>((e) => PostModel.fromJson(e.toJson())));
+      List<PostModel> paginatedData =
+          calculatePaginatedList(page: page, limit: limit);
 
-        notifyListeners();
-      }
+      notifyListeners();
 
-      return DefResponse(success: true, data: responseData);
+      return DefResponse(success: true, data: paginatedData);
     } on DioException catch (exception) {
       debugPrint(exception.toString());
 
       return DefResponse(success: false, message: exception.message);
     }
+  }
+
+  calculatePaginatedList({
+    required int page,
+    required int limit,
+  }) {
+    List paginatedData = [];
+    int startIndex = (page - 1) * limit;
+    int endIndex = startIndex + limit;
+
+    paginatedData = _postList.value
+        .sublist(startIndex, endIndex.clamp(0, _postList.value.length));
+
+    return paginatedData;
   }
 }
