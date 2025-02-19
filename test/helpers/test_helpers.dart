@@ -4,6 +4,8 @@ import 'package:food_for_education/app/app.locator.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:food_for_education/services/main_service.dart';
 import 'package:food_for_education/services/dio_service.dart';
+import 'package:food_for_education/services/hive_service.dart';
+import 'package:food_for_education/services/connectivity_service.dart';
 // @stacked-import
 
 import 'test_helpers.mocks.dart';
@@ -14,6 +16,8 @@ import 'test_helpers.mocks.dart';
   MockSpec<DialogService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<MainService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<DioService>(onMissingStub: OnMissingStub.returnDefault),
+  MockSpec<HiveService>(onMissingStub: OnMissingStub.returnDefault),
+  MockSpec<ConnectivityService>(onMissingStub: OnMissingStub.returnDefault),
 // @stacked-mock-spec
 ])
 void registerServices() {
@@ -22,6 +26,8 @@ void registerServices() {
   getAndRegisterDialogService();
   getAndRegisterMainService();
   getAndRegisterDioService();
+  getAndRegisterHiveService();
+  getAndRegisterConnectivityService();
 // @stacked-mock-register
 }
 
@@ -86,6 +92,20 @@ MockDioService getAndRegisterDioService() {
   _removeRegistrationIfExists<DioService>();
   final service = MockDioService();
   locator.registerSingleton<DioService>(service);
+  return service;
+}
+
+MockHiveService getAndRegisterHiveService() {
+  _removeRegistrationIfExists<HiveService>();
+  final service = MockHiveService();
+  locator.registerSingleton<HiveService>(service);
+  return service;
+}
+
+MockConnectivityService getAndRegisterConnectivityService() {
+  _removeRegistrationIfExists<ConnectivityService>();
+  final service = MockConnectivityService();
+  locator.registerSingleton<ConnectivityService>(service);
   return service;
 }
 // @stacked-mock-create

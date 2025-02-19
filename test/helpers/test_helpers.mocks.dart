@@ -6,11 +6,14 @@
 import 'dart:async' as _i7;
 import 'dart:ui' as _i8;
 
+import 'package:connectivity_plus/connectivity_plus.dart' as _i14;
 import 'package:dio/dio.dart' as _i3;
 import 'package:flutter/material.dart' as _i6;
 import 'package:food_for_education/models/def_response.dart' as _i2;
 import 'package:food_for_education/models/post_model.dart' as _i10;
+import 'package:food_for_education/services/connectivity_service.dart' as _i13;
 import 'package:food_for_education/services/dio_service.dart' as _i11;
+import 'package:food_for_education/services/hive_service.dart' as _i12;
 import 'package:food_for_education/services/main_service.dart' as _i9;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i5;
@@ -727,13 +730,14 @@ class MockMainService extends _i1.Mock implements _i9.MainService {
         returnValueForMissingStub: 0,
       ) as int);
 
-  _i7.Future<_i2.DefResponse> fetchPosts({
+  @override
+  _i7.Future<_i2.DefResponse> fetchPostsApi({
     required int? page,
     required int? limit,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
-          #fetchPosts,
+          #fetchPostsApi,
           [],
           {
             #page: page,
@@ -743,7 +747,7 @@ class MockMainService extends _i1.Mock implements _i9.MainService {
         returnValue: _i7.Future<_i2.DefResponse>.value(_FakeDefResponse_0(
           this,
           Invocation.method(
-            #fetchPosts,
+            #fetchPostsApi,
             [],
             {
               #page: page,
@@ -755,7 +759,7 @@ class MockMainService extends _i1.Mock implements _i9.MainService {
             _i7.Future<_i2.DefResponse>.value(_FakeDefResponse_0(
           this,
           Invocation.method(
-            #fetchPosts,
+            #fetchPostsApi,
             [],
             {
               #page: page,
@@ -852,6 +856,169 @@ class MockDioService extends _i1.Mock implements _i11.DioService {
           ),
         )),
       ) as _i7.Future<_i3.Dio>);
+
+  @override
+  void listenToReactiveValues(List<dynamic>? reactiveValues) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #listenToReactiveValues,
+          [reactiveValues],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void addListener(void Function()? listener) => super.noSuchMethod(
+        Invocation.method(
+          #addListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void removeListener(void Function()? listener) => super.noSuchMethod(
+        Invocation.method(
+          #removeListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void notifyListeners() => super.noSuchMethod(
+        Invocation.method(
+          #notifyListeners,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+}
+
+/// A class which mocks [HiveService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockHiveService extends _i1.Mock implements _i12.HiveService {
+  @override
+  int get listenersCount => (super.noSuchMethod(
+        Invocation.getter(#listenersCount),
+        returnValue: 0,
+        returnValueForMissingStub: 0,
+      ) as int);
+
+  @override
+  _i7.Future<void> savePosts(List<_i10.PostModel>? posts) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #savePosts,
+          [posts],
+        ),
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
+
+  @override
+  List<_i10.PostModel> getCachedPosts() => (super.noSuchMethod(
+        Invocation.method(
+          #getCachedPosts,
+          [],
+        ),
+        returnValue: <_i10.PostModel>[],
+        returnValueForMissingStub: <_i10.PostModel>[],
+      ) as List<_i10.PostModel>);
+
+  @override
+  _i7.Future<void> clearCache() => (super.noSuchMethod(
+        Invocation.method(
+          #clearCache,
+          [],
+        ),
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
+
+  @override
+  void listenToReactiveValues(List<dynamic>? reactiveValues) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #listenToReactiveValues,
+          [reactiveValues],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void addListener(void Function()? listener) => super.noSuchMethod(
+        Invocation.method(
+          #addListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void removeListener(void Function()? listener) => super.noSuchMethod(
+        Invocation.method(
+          #removeListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void notifyListeners() => super.noSuchMethod(
+        Invocation.method(
+          #notifyListeners,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+}
+
+/// A class which mocks [ConnectivityService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockConnectivityService extends _i1.Mock
+    implements _i13.ConnectivityService {
+  @override
+  _i14.ConnectivityResult get connectionStatus => (super.noSuchMethod(
+        Invocation.getter(#connectionStatus),
+        returnValue: _i14.ConnectivityResult.bluetooth,
+        returnValueForMissingStub: _i14.ConnectivityResult.bluetooth,
+      ) as _i14.ConnectivityResult);
+
+  @override
+  bool get showButton => (super.noSuchMethod(
+        Invocation.getter(#showButton),
+        returnValue: false,
+        returnValueForMissingStub: false,
+      ) as bool);
+
+  @override
+  int get listenersCount => (super.noSuchMethod(
+        Invocation.getter(#listenersCount),
+        returnValue: 0,
+        returnValueForMissingStub: 0,
+      ) as int);
+
+  @override
+  _i7.Future<void> initConnectivity() => (super.noSuchMethod(
+        Invocation.method(
+          #initConnectivity,
+          [],
+        ),
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
+
+  @override
+  void dispose() => super.noSuchMethod(
+        Invocation.method(
+          #dispose,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
 
   @override
   void listenToReactiveValues(List<dynamic>? reactiveValues) =>

@@ -1,7 +1,9 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:food_for_education/app/app.locator.dart';
 import 'package:food_for_education/app/app.router.dart';
 import 'package:food_for_education/models/def_response.dart';
 import 'package:food_for_education/models/post_model.dart';
+import 'package:food_for_education/services/connectivity_service.dart';
 import 'package:food_for_education/services/main_service.dart';
 import 'package:food_for_education/ui/common/enums.dart';
 import 'package:stacked/stacked.dart';
@@ -11,6 +13,9 @@ import 'package:stacked_themes/stacked_themes.dart';
 class HomeViewModel extends ReactiveViewModel {
   final _navigationService = locator<NavigationService>();
   final _mainService = locator<MainService>();
+  final _connectivityService = locator<ConnectivityService>();
+
+  ConnectivityResult get connectivity => _connectivityService.connectionStatus;
 
   StatusEnum _status = StatusEnum.idle;
   StatusEnum get status => _status;
@@ -29,6 +34,9 @@ class HomeViewModel extends ReactiveViewModel {
   final int _limit = 10;
   int get limit => _limit;
 
+  bool _hasFetched = false;
+  bool get hasFetched => _hasFetched;
+
   onInitHomeView() {
     _page = 1;
 
@@ -36,6 +44,15 @@ class HomeViewModel extends ReactiveViewModel {
   }
 
   fetchPosts() async {
+    if (connectivity == ConnectivityResult.none) {
+      _page = 1;
+      _postList =
+          _mainService.calculatePaginatedList(page: _page, limit: _limit);
+      _connectivityService.updateShowButton(true);
+      notifyListeners();
+      return;
+    }
+    setHasFetched();
     addDummyDataForLoader();
     setStatus(StatusEnum.busy);
     DefResponse defResponse =
@@ -44,6 +61,8 @@ class HomeViewModel extends ReactiveViewModel {
     if (defResponse.success!) {
       _postList.clear();
       _postList = defResponse.data;
+
+      notifyListeners();
       setStatus(StatusEnum.success);
     } else {
       setStatus(StatusEnum.error);
@@ -69,10 +88,12 @@ class HomeViewModel extends ReactiveViewModel {
 
   addDummyDataForLoader() {
     _postList = List.generate(
-        8,
+        10,
         (index) => PostModel(
             title: 'Proident dolore duis commodo',
             body: 'Elit sint sit velit irure dolore nisi veniam officia non.'));
+
+    notifyListeners();
   }
 
   navigateToPostDetail(PostModel post) {
@@ -81,6 +102,11 @@ class HomeViewModel extends ReactiveViewModel {
 
   toggleDarkLightMode(context) {
     getThemeManager(context).toggleDarkLightTheme();
+    notifyListeners();
+  }
+
+  setHasFetched() {
+    _hasFetched = true;
     notifyListeners();
   }
 
@@ -95,5 +121,6 @@ class HomeViewModel extends ReactiveViewModel {
   }
 
   @override
-  List<ListenableServiceMixin> get listenableServices => [_mainService];
+  List<ListenableServiceMixin> get listenableServices =>
+      [_mainService, _connectivityService];
 }

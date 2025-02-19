@@ -4,6 +4,7 @@ import 'package:food_for_education/app/app.dialogs.dart';
 import 'package:food_for_education/app/app.locator.dart';
 import 'package:food_for_education/app/app.router.dart';
 import 'package:food_for_education/app/utils/env.dart';
+import 'package:food_for_education/services/hive_service.dart';
 import 'package:food_for_education/ui/common/theme.dart';
 import 'package:logger/logger.dart';
 import 'package:sizer/sizer.dart';
@@ -30,6 +31,8 @@ Future<void> main() async {
     FlutterError.dumpErrorToConsole(details);
   };
   await ThemeManager.initialise();
+
+  await locator<HiveService>().initializeHive();
 
   runApp(const MainApp());
 }
