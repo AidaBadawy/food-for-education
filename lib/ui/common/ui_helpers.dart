@@ -11,7 +11,7 @@ double mediumSizerHeight = 3.7.h;
 double mediumSizerWidth = 6.w;
 double largeSizerHeight = 7.4.h;
 double largeSizerWidth = 12.w;
-double massiveSizer = 17.6.h;
+double massiveSizer = 17.5.h;
 
 Widget horizontalSpaceTiny = SizedBox(width: tinySizerWidth);
 Widget horizontalSpaceSmall = SizedBox(width: smallSizerWidth);
