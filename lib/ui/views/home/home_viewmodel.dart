@@ -24,9 +24,7 @@ class HomeViewModel extends ReactiveViewModel {
   StatusEnum get statusPaginate => _statusPaginate;
 
   List<PostModel> get postListService => _mainService.postList;
-
-  List<PostModel> _postList = [];
-  List<PostModel> get postList => _postList;
+  List<PostModel> get paginatedList => _mainService.paginatedList;
 
   int _page = 1;
   int get page => _page;
@@ -37,32 +35,30 @@ class HomeViewModel extends ReactiveViewModel {
   bool _hasFetched = false;
   bool get hasFetched => _hasFetched;
 
-  onInitHomeView() {
+  Future<void> onInitHomeView() async {
     _page = 1;
 
-    fetchPosts();
+    await fetchPosts();
   }
 
-  fetchPosts() async {
+  Future<void> fetchPosts() async {
     if (connectivity == ConnectivityResult.none) {
       _page = 1;
-      _postList =
-          _mainService.calculatePaginatedList(page: _page, limit: _limit);
+
+      _mainService.clearPaginatedList();
+
+      _mainService.updatePaginatedList(page: _page, limit: _limit);
       _connectivityService.updateShowButton(true);
       notifyListeners();
       return;
     }
     setHasFetched();
-    addDummyDataForLoader();
+    _mainService.addDummyDataForLoader();
     setStatus(StatusEnum.busy);
     DefResponse defResponse =
         await _mainService.fetchPostsApi(page: _page, limit: _limit);
 
     if (defResponse.success!) {
-      _postList.clear();
-      _postList = defResponse.data;
-
-      notifyListeners();
       setStatus(StatusEnum.success);
     } else {
       setStatus(StatusEnum.error);
@@ -71,51 +67,39 @@ class HomeViewModel extends ReactiveViewModel {
     setStatus(StatusEnum.idle);
   }
 
-  fetchMorePosts() {
-    if (_postList.length != postListService.length) {
+  void fetchMorePosts() {
+    if (paginatedList.length != postListService.length) {
       _page++;
       if (postListService.isEmpty) {
         fetchPosts();
       } else {
-        List<PostModel> newData =
-            _mainService.calculatePaginatedList(page: _page, limit: _limit);
+        _mainService.updatePaginatedList(page: _page, limit: _limit);
 
-        _postList.addAll(newData);
         notifyListeners();
       }
     }
   }
 
-  addDummyDataForLoader() {
-    _postList = List.generate(
-        10,
-        (index) => PostModel(
-            title: 'Proident dolore duis commodo',
-            body: 'Elit sint sit velit irure dolore nisi veniam officia non.'));
-
-    notifyListeners();
-  }
-
-  navigateToPostDetail(PostModel post) {
+  void navigateToPostDetail(PostModel post) {
     _navigationService.navigateToPostView(postModel: post);
   }
 
-  toggleDarkLightMode(context) {
+  void toggleDarkLightMode(context) {
     getThemeManager(context).toggleDarkLightTheme();
     notifyListeners();
   }
 
-  setHasFetched() {
+  void setHasFetched() {
     _hasFetched = true;
     notifyListeners();
   }
 
-  setStatus(StatusEnum value) {
+  void setStatus(StatusEnum value) {
     _status = value;
     notifyListeners();
   }
 
-  setStatusPaginate(StatusEnum value) {
+  void setStatusPaginate(StatusEnum value) {
     _statusPaginate = value;
     notifyListeners();
   }
