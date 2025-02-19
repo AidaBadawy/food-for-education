@@ -5,6 +5,7 @@ import 'package:food_for_education/app/utils/env.dart';
 import 'package:food_for_education/models/def_response.dart';
 import 'package:food_for_education/models/post_model.dart';
 import 'package:food_for_education/services/dio_service.dart';
+import 'package:food_for_education/services/hive_service.dart';
 import 'package:food_for_education/ui/common/app_urls.dart';
 import 'package:stacked/stacked.dart';
 
@@ -21,6 +22,12 @@ class MainService with ListenableServiceMixin {
   List<PostModel> get postList => _postList.value;
 
   final _dioService = locator<DioService>();
+  final _hiveService = locator<HiveService>();
+
+  updatePostsList() {
+    _postList.value = _hiveService.getCachedPosts();
+    notifyListeners();
+  }
 
   Future<DefResponse> fetchPostsApi({
     required int page,
@@ -35,6 +42,8 @@ class MainService with ListenableServiceMixin {
 
       _postList.value =
           List.from(responseData.map<PostModel>((e) => PostModel.fromJson(e)));
+
+      _hiveService.savePosts(_postList.value);
 
       List<PostModel> paginatedData =
           calculatePaginatedList(page: page, limit: limit);

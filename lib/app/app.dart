@@ -7,6 +7,8 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:food_for_education/services/main_service.dart';
 import 'package:food_for_education/services/dio_service.dart';
 import 'package:food_for_education/ui/views/post/post_view.dart';
+import 'package:food_for_education/services/hive_service.dart';
+import 'package:food_for_education/services/connectivity_service.dart';
 // @stacked-import
 
 @StackedApp(
@@ -22,6 +24,8 @@ import 'package:food_for_education/ui/views/post/post_view.dart';
     LazySingleton(classType: NavigationService),
     LazySingleton(classType: MainService),
     LazySingleton(classType: DioService),
+    LazySingleton(classType: HiveService),
+    LazySingleton(classType: ConnectivityService),
 // @stacked-service
   ],
   bottomsheets: [
