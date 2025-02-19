@@ -14,6 +14,7 @@ class MainService with ListenableServiceMixin {
     listenToReactiveValues([
       // _userModelData,
       _postList,
+      _paginatedList,
     ]);
   }
 
@@ -21,11 +22,39 @@ class MainService with ListenableServiceMixin {
       ReactiveValue<List<PostModel>>([]);
   List<PostModel> get postList => _postList.value;
 
+  final ReactiveValue<List<PostModel>> _paginatedList =
+      ReactiveValue<List<PostModel>>([]);
+  List<PostModel> get paginatedList => _paginatedList.value;
+
   final _dioService = locator<DioService>();
   final _hiveService = locator<HiveService>();
 
   updatePostsList() {
     _postList.value = _hiveService.getCachedPosts();
+    notifyListeners();
+  }
+
+  updatePaginatedList({
+    required int page,
+    required int limit,
+  }) {
+    List<PostModel> newData = calculatePaginatedList(page: page, limit: limit);
+    _paginatedList.value.addAll(newData);
+    notifyListeners();
+  }
+
+  clearPaginatedList() {
+    _paginatedList.value = [];
+    notifyListeners();
+  }
+
+  addDummyDataForLoader() {
+    _paginatedList.value = List.generate(
+        10,
+        (index) => PostModel(
+            title: 'Proident dolore duis commodo',
+            body: 'Elit sint sit velit irure dolore nisi veniam officia non.'));
+
     notifyListeners();
   }
 
@@ -47,6 +76,10 @@ class MainService with ListenableServiceMixin {
 
       List<PostModel> paginatedData =
           calculatePaginatedList(page: page, limit: limit);
+
+      clearPaginatedList();
+
+      updatePaginatedList(page: page, limit: limit);
 
       notifyListeners();
 

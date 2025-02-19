@@ -38,7 +38,7 @@ class HomeView extends StackedView<HomeViewModel> {
       appBar: AppBar(
         elevation: 1,
         title: PoppinsText.regular(
-          'Posts (${viewModel.postList.length})',
+          'Posts (${viewModel.paginatedList.length})',
           16,
           colorScheme.onSurface,
         ),
@@ -58,7 +58,7 @@ class HomeView extends StackedView<HomeViewModel> {
           onRefresh: () async {
             await viewModel.onInitHomeView();
           },
-          child: viewModel.postList.isEmpty
+          child: viewModel.paginatedList.isEmpty
               ? Center(
                   child: PoppinsText.medium(
                       'No Posts Available', 14, colorScheme.primary),
@@ -68,8 +68,8 @@ class HomeView extends StackedView<HomeViewModel> {
                       EdgeInsets.symmetric(horizontal: 5.1.w, vertical: 1.5.h),
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
-                    if (index == viewModel.postList.length &&
-                        viewModel.postList.length !=
+                    if (index == viewModel.paginatedList.length &&
+                        viewModel.paginatedList.length !=
                             viewModel.postListService.length) {
                       return Center(
                         child: ElevatedButton(
@@ -84,7 +84,7 @@ class HomeView extends StackedView<HomeViewModel> {
                     return Skeletonizer(
                       enabled: viewModel.status == StatusEnum.busy,
                       child: PostCard(
-                        postModel: viewModel.postList[index],
+                        postModel: viewModel.paginatedList[index],
                         onTap: (PostModel post) {
                           viewModel.navigateToPostDetail(post);
                         },
@@ -92,10 +92,10 @@ class HomeView extends StackedView<HomeViewModel> {
                     );
                   },
                   separatorBuilder: (context, index) => verticalSpaceSmall,
-                  itemCount: viewModel.postList.length !=
+                  itemCount: viewModel.paginatedList.length !=
                           viewModel.postListService.length
-                      ? viewModel.postList.length + 1
-                      : viewModel.postList.length,
+                      ? viewModel.paginatedList.length + 1
+                      : viewModel.paginatedList.length,
                 ),
         ),
       ),
