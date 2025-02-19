@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:food_for_education/app/app.locator.dart';
-import 'package:food_for_education/app/utils/env.dart';
+import 'package:food_for_education/utils/env.dart';
 import 'package:food_for_education/models/def_response.dart';
 import 'package:food_for_education/models/post_model.dart';
 import 'package:food_for_education/services/dio_service.dart';

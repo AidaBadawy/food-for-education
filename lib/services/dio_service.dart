@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:food_for_education/app/utils/dio_interceptor.dart';
-import 'package:food_for_education/app/utils/env.dart';
+import 'package:food_for_education/utils/dio_interceptor.dart';
+import 'package:food_for_education/utils/env.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';

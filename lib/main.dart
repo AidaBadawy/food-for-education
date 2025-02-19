@@ -3,7 +3,7 @@ import 'package:food_for_education/app/app.bottomsheets.dart';
 import 'package:food_for_education/app/app.dialogs.dart';
 import 'package:food_for_education/app/app.locator.dart';
 import 'package:food_for_education/app/app.router.dart';
-import 'package:food_for_education/app/utils/env.dart';
+import 'package:food_for_education/utils/env.dart';
 import 'package:food_for_education/services/hive_service.dart';
 import 'package:food_for_education/ui/common/theme.dart';
 import 'package:logger/logger.dart';
